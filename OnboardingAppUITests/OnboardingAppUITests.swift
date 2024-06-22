@@ -22,11 +22,24 @@ final class OnboardingAppUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
+    func testLoginFail() throws {
         // UI tests must launch the application that they test.
         let app = XCUIApplication()
         app.launch()
 
+        let emailField = app.textFields["email"]
+        let passwordSecureTextField = app.secureTextFields["password"]
+        let loginBtn = app.buttons["Login"].staticTexts["Login"]
+
+        emailField.tap()
+        emailField.typeText(UUID().uuidString)
+        app.typeText("\n")
+        passwordSecureTextField.tap()
+        passwordSecureTextField.typeText("password")
+        app.typeText("\n")
+        loginBtn.tap()
+
+        XCTAssertEqual(app.alerts.element.label, "Server error occured")
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
 
